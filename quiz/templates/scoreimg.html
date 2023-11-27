@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style_score.css' %}">
+    <title>Score du Qui est ce ?</title>
+</head>
+<body>
+    <h1>Score du Qui est ce ?</h1>
+    <p>Votre score est de {{ Score }} points !</p>
+    <a href="{% url 'home' %}">Retour à l'accueil</a>
+</body>
+</html>

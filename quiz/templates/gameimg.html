@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_gameimg.css' %}">
+    <title>Qui est-ce ?</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Qui est-ce ?</h1>
+        
+        <img src="{% static image.chemin_image %}" alt="{{ image.nom }}">
+
+        <form id="game-form" method="post" onsubmit="submitForm();">
+            {% csrf_token %}
+            <input type="text" name="reponse" placeholder="Votre réponse...">
+            <input type="hidden" name="image_id" value="{{ image.id }}">
+            <button type="submit">Soumettre</button>
+            {% if error_message %}
+                <p id="error_message">{{ error_message }}</p>
+            {% endif %}
+        </form>
+        
+        <div id="timer">45 secondes restantes</div>
+        <div id="score">Score actuel : {{ Score }}</div>
+        <a href="{% url 'home' %}">Retour à l'accueil</a>
+    </div>
+</body>
+
+<script>
+    let timeLeft = parseInt("{{ time_left | default:'120' }}", 10);
+
+    function updateTimer() {
+        if (timeLeft > 0) {
+            document.getElementById("timer").innerText = timeLeft + " secondes restantes";
+            timeLeft--;
+        } else {
+            document.getElementById("game-form").submit();  // Soumettre le formulaire automatiquement
+        }
+        setTimeout(updateTimer, 1000);
+    }
+
+    window.onload = updateTimer;
+</script>
+</html>
+

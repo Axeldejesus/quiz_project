@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style_home.css' %}">
+    <title>Home</title>
+    
+</head>
+<body>
+    <h1>Choisis un jeu</h1>
+    <ul>   
+        <li>
+            <a href="{% url 'themes' %}">Accés au Quiz</a>
+            <a href="{% url 'gameimg' %}">Accés au Qui est ce ?</a>
+        </li>
+    </ul>
+    
+    
+</body>
+</html>

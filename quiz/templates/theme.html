@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_theme.css' %}">
+    <title>Choisis ton thème</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Bonjour {{ pseudo }} !</h1>
+        <h2>Choisissez un thème</h2>
+    </div>
+    <ul class="theme-list">
+        {% for theme in themes %}
+            <li class="theme-item">
+                <a class="theme-link" href="{% url 'questions_view' %}?theme_id={{ theme.id_Theme }}">{{ theme.Nom_theme }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="home-container">
+        <a class="home-link" href="{% url 'home' %}">Retour à l'accueil</a>
+    </div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/style_quiz.css' %}">
+    <title>Quiz</title>
+</head>
+<body>
+    
+    <h1>Quiz</h1>
+    {% if question %}
+        <form id="quiz-form" method="post" onsubmit="submitForm();">
+            {% csrf_token %}
+            <p>{{ question.Texte_Questions }}</p>
+            <input type="hidden" name="question_id" value="{{ question.id }}">
+            <input type="hidden" id="timeTaken" name="timeTaken">
+            <input type="text" name="reponse" data-correct-answer="{{ question.Reponse_correcte }}">
+            <button type="submit">Soumettre</button>
+            {% if error_message %}
+                <p id="error_message">{{ error_message }}</p>
+            {% endif %}
+            <input type="hidden" id="timeLeft" name="timeLeft" value="{{ time_left }}">
+        </form>
+        <div id="timer">45 secondes restantes</div>
+        <div id="score">Score actuel : {{ Score }}</div>
+        <a href="{% url 'themes' %}">Retour aux thèmes</a>
+    {% else %}
+        <p>Fin du quiz !</p>
+        <div id="score">Score final : {{ score }}</div>
+    {% endif %}
+</body>
+<script>
+    let timeLeft = parseInt("{{ time_left | default:'50' }}");
+    // let timeLeft permet de récupérer le temps restant dans la variable time_left
+    // Si time_left n'existe pas, on met 5 secondes par défaut
+    
+        function updateTimer() {
+            // cette fonction est appelée toutes les secondes
+            if (timeLeft > 0) {
+                // si le temps restant est supérieur à 0, on met à jour le timer
+                document.getElementById("timer").innerText = timeLeft + " secondes restantes";
+                // on met à jour le champ caché timeTaken
+                // .innerText permet de récupérer le texte d'un élément HTML
+                // = timeLeft + 1 permet de mettre à jour le champ caché
+                timeLeft--;
+                // on décrémente le temps restant
+            } else {
+                // si le temps restant est inférieur ou égal à 0, on soumet le formulaire
+                submitForm();  
+                // on soumet le formulaire
+            }
+            setTimeout(updateTimer, 1000);
+            // on rappelle la fonction updateTimer() toutes les secondes
+        }
+    
+        function submitForm() {
+            // cette fonction permet de soumettre le formulaire
+            document.getElementById("timeLeft").value = timeLeft;
+            // on met à jour le champ caché timeLeft
+            document.getElementById("quiz-form").submit();  
+            // on soumet le formulaire
+        }
+    
+        window.onload = function() {
+            // cette fonction est appelée au chargement de la page
+            updateTimer();
+            // on appelle la fonction updateTimer()
+        };
+        </script>
+</html>
+
+

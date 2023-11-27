@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style_score.css' %}">
+    <title>Score du Quiz</title>
+</head>
+<body>
+    <h1>Score du Quiz</h1>
+    <p>Votre score est de {{ Score }} points !</p>
+    <a href="{% url 'themes' %}">Retour aux thèmes</a>
+</body>
+</html>
